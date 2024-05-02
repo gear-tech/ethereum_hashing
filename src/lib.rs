@@ -7,6 +7,14 @@
 //! Now this crate serves primarily as a wrapper over two SHA256 crates: `sha2` and `ring` – which
 //! it switches between at runtime based on the availability of SHA intrinsics.
 
+#![cfg_attr(not(feature = "std"), no_std)]
+
+#[cfg(not(feature = "std"))]
+extern crate alloc;
+
+#[cfg(not(feature = "std"))]
+use alloc::vec::Vec;
+
 pub use self::DynamicContext as Context;
 use sha2::Digest;
 
@@ -210,6 +218,9 @@ pub const ZERO_HASHES_MAX_INDEX: usize = 48;
 lazy_static! {
     /// Cached zero hashes where `ZERO_HASHES[i]` is the hash of a Merkle tree with 2^i zero leaves.
     pub static ref ZERO_HASHES: Vec<Vec<u8>> = {
+        #[cfg(not(feature = "std"))]
+        use alloc::vec;
+
         let mut hashes = vec![vec![0; 32]; ZERO_HASHES_MAX_INDEX + 1];
 
         for i in 0..ZERO_HASHES_MAX_INDEX {
@@ -242,6 +253,8 @@ mod tests {
     #[cfg(feature = "zero_hash_cache")]
     mod zero_hash {
         use super::*;
+        #[cfg(not(feature = "std"))]
+        use alloc::vec;
 
         #[test]
         fn zero_hash_zero() {

@@ -13,8 +13,8 @@ categories = ["cryptography::cryptocurrencies"]
 [dependencies]
 lazy_static = { version = "1.1", optional = true }
 cpufeatures = { version = "0.2", optional = true }
-ring = "0.17"
-sha2 = "0.10"
+ring = { version = "0.17", default-features = false, features = ["alloc"] }
+sha2 = { version = "0.10", default-features = false, features = ["oid"] }
 
 [dev-dependencies]
 rustc-hex = "2"
@@ -23,6 +23,7 @@ rustc-hex = "2"
 wasm-bindgen-test = "0.3.33"
 
 [features]
-default = ["zero_hash_cache", "detect-cpufeatures"]
+default = ["zero_hash_cache", "detect-cpufeatures", "std"]
+std = ["sha2/std", "ring/std"]
 zero_hash_cache = ["lazy_static"]
 detect-cpufeatures = ["cpufeatures"]
