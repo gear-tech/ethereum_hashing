@@ -13,7 +13,7 @@ categories = ["cryptography::cryptocurrencies"]
 [dependencies]
 lazy_static = { version = "1.1", optional = true }
 cpufeatures = { version = "0.2", optional = true }
-ring = { version = "0.17", default-features = false, features = ["alloc"] }
+ring = { git = "https://github.com/gear-tech/ring.git", branch = "gear-v0.17.8", default-features = false, features = ["alloc"] }
 sha2 = { version = "0.10", default-features = false, features = ["oid"] }
 
 [dev-dependencies]
